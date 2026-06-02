@@ -592,6 +592,126 @@
       text-shadow: 0 0 10px var(--sombra);
     }
 
+    /* ── MODAL REGALO ── */
+    .regalo-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(5,0,10,.82);
+      backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+      animation: fadeIn .3s ease;
+    }
+    .regalo-overlay.visible { display: flex; }
+
+    .regalo-modal {
+      position: relative;
+      width: 92%; max-width: 360px;
+      animation: fadeSlideIn .5s ease;
+    }
+
+    .regalo-close {
+      position: absolute; top: -14px; right: -14px;
+      width: 34px; height: 34px;
+      background: var(--rosa2); border: none; border-radius: 50%;
+      color: #fff; font-size: .9rem; cursor: pointer; z-index: 10;
+      box-shadow: 0 2px 10px rgba(233,30,140,.5);
+    }
+
+    /* cajita centrada en el modal */
+    .regalo-gift-center {
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 1.2rem;
+      transition: opacity .4s, transform .4s;
+    }
+    .regalo-gift-center.abierto {
+      opacity: 0; transform: scale(.5) translateY(-20px); pointer-events:none;
+    }
+    .gift-lid-modal {
+      width: 120px; height: 40px;
+      background: linear-gradient(135deg, #e91e8c, #f06292);
+      border-radius: 8px 8px 0 0;
+      position: relative;
+      box-shadow: 0 -2px 16px rgba(233,30,140,.5);
+      transform-origin: bottom center;
+      transition: transform .6s cubic-bezier(.4,0,.2,1), opacity .4s;
+    }
+    .gift-lid-modal .gift-ribbon-h {
+      position: absolute; top:50%; left:0; right:0; height:9px;
+      background:rgba(255,255,255,.3); transform:translateY(-50%);
+    }
+    .gift-lid-modal .gift-ribbon-v {
+      position:absolute; top:0; bottom:0; left:50%; width:9px;
+      background:rgba(255,255,255,.3); transform:translateX(-50%);
+    }
+    .gift-bow-modal {
+      position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+      font-size:1.8rem;
+      filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));
+      transition: transform .5s, opacity .4s;
+    }
+    .gift-body-modal {
+      width:120px; height:96px;
+      background: linear-gradient(135deg, #c2185b, #e91e8c);
+      border-radius: 0 0 12px 12px;
+      position:relative;
+      box-shadow: 0 8px 28px rgba(233,30,140,.45);
+      overflow:hidden;
+    }
+    .gift-body-modal .gift-ribbon-body {
+      position:absolute; top:0; bottom:0; left:50%; width:9px;
+      background:rgba(255,255,255,.25); transform:translateX(-50%);
+    }
+
+    /* cartita del regalo */
+    .regalo-cartita {
+      display: none;
+      animation: fadeSlideIn .7s ease;
+    }
+    .regalo-cartita.visible { display: block; }
+
+    .regalo-cartita-inner {
+      background: var(--crema);
+      border-radius: 18px;
+      padding: 2rem 1.8rem 1.8rem;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 60px rgba(233,30,140,.2);
+    }
+    .regalo-cartita-inner::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:5px;
+      background: linear-gradient(90deg, transparent, var(--rosa), var(--rosa2), var(--rosa), transparent);
+      border-radius: 18px 18px 0 0;
+    }
+    .regalo-emoji-top {
+      font-size: 3.5rem; display:block; margin-bottom:.6rem;
+      animation: latido 1.5s infinite;
+      filter: drop-shadow(0 0 10px rgba(233,30,140,.4));
+    }
+    .regalo-titulo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; color: var(--rosa2);
+      margin-bottom: .8rem;
+    }
+    .regalo-linea {
+      width: 60px; height: 2px; margin: 0 auto .9rem;
+      background: linear-gradient(90deg, transparent, var(--rosa), transparent);
+    }
+    .regalo-texto {
+      font-size: .95rem; color: #4a2040;
+      line-height: 1.8; margin-bottom: .2rem;
+    }
+    .regalo-texto-bold {
+      font-size: 1rem; color: var(--rosa2);
+      font-weight: 700; margin-top: .5rem;
+    }
+    .regalo-firma-mini {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem; color: #b0829e;
+      margin-top: 1rem;
+      border-top: 1px dashed rgba(233,30,140,.2);
+      padding-top: .7rem;
+    }
+
     /* galería de emojis en el footer */
     .emoji-footer {
       text-align: center;
@@ -778,10 +898,33 @@
         </div>
         <p class="gift-tap">toca para abrir 💕</p>
       </div>
-      <div class="gift-reveal" id="gift-reveal">
-        <div class="gift-emoji">🧦</div>
-        <p class="gift-msg">no es mucho pero alguna vez dijiste que las querías,</p>
-        <p class="gift-msg2">así que aquí están, son tuyas 💕</p>
+    </div>
+
+    <!-- MODAL REGALO -->
+    <div class="regalo-overlay" id="regalo-overlay" onclick="cerrarRegalo()">
+      <div class="regalo-modal" onclick="event.stopPropagation()">
+        <button class="regalo-close" onclick="cerrarRegalo()">✕</button>
+        <div class="regalo-gift-center" id="regalo-gift-center">
+          <div class="gift-lid-modal">
+            <div class="gift-ribbon-h"></div>
+            <div class="gift-ribbon-v"></div>
+            <div class="gift-bow-modal">🎀</div>
+          </div>
+          <div class="gift-body-modal">
+            <div class="gift-ribbon-body"></div>
+          </div>
+        </div>
+        <div class="regalo-cartita" id="regalo-cartita">
+          <div class="regalo-cartita-inner">
+            <span class="regalo-emoji-top">🧦</span>
+            <p class="regalo-titulo">un pequeño obsequio</p>
+            <div class="regalo-linea"></div>
+            <p class="regalo-texto">no es mucho amor,</p>
+            <p class="regalo-texto">pero alguna vez dijiste que las querías,</p>
+            <p class="regalo-texto-bold">así que aquí están, son tuyas 💕</p>
+            <div class="regalo-firma-mini">con todo mi cariño 🌹</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -907,25 +1050,41 @@
   function iniciarMusica() { arrancarMusica(); }
 
   function abrirRegalo() {
-    const box = document.getElementById("gift-box");
-    const reveal = document.getElementById("gift-reveal");
-    if (box.classList.contains("abierto")) return;
-    box.classList.add("abierto");
-    setTimeout(() => reveal.classList.add("visible"), 700);
-    // mini lluvia de emojis
-    const sorpresa = ["🧦","💕","✨","🎀","🌸"];
-    for (let i = 0; i < 20; i++) {
-      const c = document.createElement("span");
-      c.textContent = sorpresa[Math.floor(Math.random()*sorpresa.length)];
-      c.style.cssText = `
-        position:fixed;left:${30+Math.random()*40}vw;top:40vh;
-        font-size:${1+Math.random()}rem;opacity:0;pointer-events:none;z-index:9999;
-        animation:petalCaida ${1.5+Math.random()*1.5}s ease-in forwards;
-        animation-delay:${i*60}ms;
-      `;
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4000);
-    }
+    document.getElementById("regalo-overlay").classList.add("visible");
+    // abrir tapa tras 600ms
+    setTimeout(() => {
+      const lid = document.querySelector(".gift-lid-modal");
+      const bow = document.querySelector(".gift-bow-modal");
+      const center = document.getElementById("regalo-gift-center");
+      lid.style.transform = "rotateX(-120deg) translateY(-12px)";
+      lid.style.opacity = "0";
+      bow.style.transform = "translateX(-50%) translateY(-40px) scale(0)";
+      bow.style.opacity = "0";
+      setTimeout(() => {
+        center.classList.add("abierto");
+        setTimeout(() => {
+          document.getElementById("regalo-cartita").classList.add("visible");
+          // lluvia de emojis
+          const sorpresa = ["🧦","💕","✨","🎀","🌸"];
+          for (let i = 0; i < 25; i++) {
+            const c = document.createElement("span");
+            c.textContent = sorpresa[Math.floor(Math.random()*sorpresa.length)];
+            c.style.cssText = `
+              position:fixed;left:${20+Math.random()*60}vw;top:30vh;
+              font-size:${.9+Math.random()*1.2}rem;opacity:0;pointer-events:none;z-index:9999;
+              animation:petalCaida ${1.5+Math.random()*1.5}s ease-in forwards;
+              animation-delay:${i*50}ms;
+            `;
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 4000);
+          }
+        }, 400);
+      }, 400);
+    }, 300);
+  }
+
+  function cerrarRegalo() {
+    document.getElementById("regalo-overlay").classList.remove("visible");
   }
 
   function lanzarConfetti() {
