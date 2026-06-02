@@ -65,16 +65,43 @@
     .aurora {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
-      opacity: .15;
-      animation: auroraMove 12s infinite ease-in-out alternate;
+      pointer-events: none;
     }
-    .aurora-1 { width:400px;height:400px;background:var(--rosa2);top:-100px;left:-100px; }
-    .aurora-2 { width:350px;height:350px;background:#7c4dff;bottom:-80px;right:-80px;animation-delay:4s; }
-    .aurora-3 { width:300px;height:300px;background:var(--rosa);top:40%;left:50%;transform:translate(-50%,-50%);animation-delay:8s; }
-    @keyframes auroraMove {
-      0%   { transform: scale(1) translate(0,0); }
-      100% { transform: scale(1.3) translate(20px,20px); }
+    .aurora-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(233,30,140,.28) 0%, transparent 70%);
+      top: -200px; left: -200px;
+      animation: auroraFloat1 14s infinite ease-in-out alternate;
+    }
+    .aurora-2 {
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(124,77,255,.22) 0%, transparent 70%);
+      bottom: -180px; right: -180px;
+      animation: auroraFloat2 17s infinite ease-in-out alternate;
+    }
+    .aurora-3 {
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(240,98,146,.18) 0%, transparent 70%);
+      top: 30%; left: 50%; transform: translateX(-50%);
+      animation: auroraFloat3 11s infinite ease-in-out alternate;
+    }
+    .aurora-4 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(103,58,183,.18) 0%, transparent 70%);
+      top: 10%; right: -100px;
+      animation: auroraFloat1 19s infinite ease-in-out alternate-reverse;
+    }
+    @keyframes auroraFloat1 {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(40px,50px) scale(1.15); }
+    }
+    @keyframes auroraFloat2 {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-40px,-30px) scale(1.2); }
+    }
+    @keyframes auroraFloat3 {
+      0%   { transform: translateX(-50%) scale(1); }
+      100% { transform: translateX(-45%) scale(1.1); }
     }
 
     /* ════════════════════════════════
@@ -526,6 +553,7 @@
   <div class="aurora aurora-1"></div>
   <div class="aurora aurora-2"></div>
   <div class="aurora aurora-3"></div>
+  <div class="aurora aurora-4"></div>
 </div>
 
 <!-- ══════════════ PANTALLA LOGIN ══════════════ -->
