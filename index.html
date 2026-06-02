@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Milagros 💕</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Lato:wght@300;400&family=Playfair+Display:ital,wght@1,400;1,600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rosa:   #f06292;
+      --rosa2:  #e91e8c;
+      --rosa3:  #fce4ec;
+      --crema:  #fff9f9;
+      --texto:  #4a1942;
+      --sombra: rgba(240,98,146,.35);
+      --oro:    #ffd700;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0d0514 0%, #1a0a1e 40%, #2d0a2a 70%, #1a0a1e 100%);
+      font-family: 'Lato', sans-serif;
+      color: var(--texto);
+      overflow-x: hidden;
+    }
+
+    /* ════════════════════════════════
+       FONDO: ESTRELLAS + PARTÍCULAS
+    ════════════════════════════════ */
+    .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+    /* estrellas parpadeantes */
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--d,3s) infinite ease-in-out var(--delay,0s);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: .1; transform: scale(1); }
+      50%      { opacity: .9; transform: scale(1.4); }
+    }
+
+    /* corazones y pétalos flotantes */
+    .float-particle {
+      position: absolute;
+      opacity: 0;
+      animation: floatUp var(--d,9s) infinite ease-in var(--delay,0s);
+      font-size: var(--size,1.1rem);
+      filter: drop-shadow(0 0 4px rgba(240,98,146,.6));
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(105vh) scale(.4) rotate(-20deg); opacity:0; }
+      8%   { opacity: .7; }
+      85%  { opacity: .4; }
+      100% { transform: translateY(-8vh) scale(1.2) rotate(20deg); opacity:0; }
+    }
+
+    /* luz de aurora en esquinas */
+    .aurora {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .15;
+      animation: auroraMove 12s infinite ease-in-out alternate;
+    }
+    .aurora-1 { width:400px;height:400px;background:var(--rosa2);top:-100px;left:-100px; }
+    .aurora-2 { width:350px;height:350px;background:#7c4dff;bottom:-80px;right:-80px;animation-delay:4s; }
+    .aurora-3 { width:300px;height:300px;background:var(--rosa);top:40%;left:50%;transform:translate(-50%,-50%);animation-delay:8s; }
+    @keyframes auroraMove {
+      0%   { transform: scale(1) translate(0,0); }
+      100% { transform: scale(1.3) translate(20px,20px); }
+    }
+
+    /* ════════════════════════════════
+       PANTALLA LOGIN
+    ════════════════════════════════ */
+    #login-screen {
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 2rem;
+      animation: fadeSlideIn .9s ease;
+    }
+
+    /* corona decorativa arriba */
+    .corona {
+      font-size: 2.8rem;
+      margin-bottom: .4rem;
+      filter: drop-shadow(0 0 12px var(--oro));
+      animation: floatBob 3s infinite ease-in-out;
+    }
+    @keyframes floatBob {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .login-card {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(240,98,146,.35);
+      border-radius: 28px;
+      padding: 2.8rem 2.6rem 2.4rem;
+      max-width: 430px; width: 100%;
+      text-align: center;
+      box-shadow:
+        0 8px 50px rgba(0,0,0,.6),
+        0 0 80px var(--sombra),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* borde brillante animado */
+    .login-card::before {
+      content: '';
+      position: absolute; inset: -2px;
+      background: conic-gradient(from 0deg, transparent 60%, var(--rosa) 70%, var(--rosa2) 80%, transparent 90%);
+      border-radius: 30px;
+      z-index: -1;
+      animation: borderSpin 4s linear infinite;
+    }
+    .login-card::after {
+      content: '';
+      position: absolute; inset: 1px;
+      background: rgba(13,5,20,.92);
+      border-radius: 27px;
+      z-index: -1;
+    }
+    @keyframes borderSpin { to { transform: rotate(360deg); } }
+
+    .lock-icon {
+      font-size: 3.6rem; margin-bottom: .8rem;
+      display: inline-block;
+      animation: pulse 2.2s infinite;
+      filter: drop-shadow(0 0 10px var(--sombra));
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.14); }
+    }
+
+    .login-card h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.4rem;
+      color: var(--rosa);
+      text-shadow: 0 0 24px var(--sombra), 0 0 60px var(--sombra);
+      margin-bottom: .3rem;
+    }
+    .login-card p.subtitle {
+      color: rgba(255,255,255,.5);
+      font-size: .88rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    /* divisor decorativo */
+    .divider-deco {
+      display: flex; align-items: center; gap: .5rem;
+      margin: 1rem 0 1.4rem;
+      color: rgba(240,98,146,.5);
+      font-size: .75rem;
+    }
+    .divider-deco::before,
+    .divider-deco::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(240,98,146,.4), transparent);
+    }
+
+    .hint-box {
+      background: rgba(240,98,146,.1);
+      border: 1px dashed rgba(240,98,146,.45);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.6rem;
+      color: rgba(255,255,255,.8);
+      font-size: .92rem;
+      line-height: 1.7;
+      position: relative;
+    }
+    .hint-box::before {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: rgba(13,5,20,.9);
+      padding: 0 6px;
+      font-size: 1rem;
+    }
+    .hint-box strong { color: var(--rosa); }
+    .hint-format {
+      display: block; margin-top: .4rem;
+      font-size: .78rem; color: rgba(240,98,146,.65); font-style: italic;
+    }
+
+    .input-wrap { position: relative; margin-bottom: 1.2rem; }
+    .input-wrap input {
+      width: 100%; padding: .95rem 1.4rem;
+      background: rgba(255,255,255,.08);
+      border: 1.5px solid rgba(240,98,146,.4);
+      border-radius: 50px;
+      color: #fff; font-size: 1.15rem;
+      text-align: center; letter-spacing: .1em;
+      outline: none;
+      transition: border .3s, box-shadow .3s, background .3s;
+    }
+    .input-wrap input::placeholder { color: rgba(255,255,255,.25); }
+    .input-wrap input:focus {
+      border-color: var(--rosa);
+      background: rgba(240,98,146,.1);
+      box-shadow: 0 0 24px var(--sombra), 0 0 6px rgba(240,98,146,.2) inset;
+    }
+
+    .btn-abrir {
+      width: 100%; padding: .95rem;
+      background: linear-gradient(135deg, #f06292, #e91e8c, #c2185b);
+      background-size: 200% 200%;
+      animation: gradMove 3s infinite alternate;
+      border: none; border-radius: 50px;
+      color: #fff; font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; letter-spacing: .06em;
+      box-shadow: 0 4px 24px var(--sombra), 0 0 40px rgba(233,30,140,.2);
+      transition: transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .btn-abrir::after {
+      content: '';
+      position: absolute; top: -50%; left: -60%; width: 40%; height: 200%;
+      background: rgba(255,255,255,.15);
+      transform: skewX(-20deg);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer { 0%{left:-60%} 100%{left:160%} }
+    @keyframes gradMove { 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
+    .btn-abrir:hover  { transform: translateY(-3px); box-shadow: 0 10px 32px var(--sombra); }
+    .btn-abrir:active { transform: translateY(0); }
+
+    .error-msg {
+      margin-top: .9rem; color: #ff8a80;
+      font-size: .88rem; min-height: 1.2rem;
+    }
+    .error-msg.shake { animation: shake .45s ease; }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)} 20%{transform:translateX(-10px)}
+      40%{transform:translateX(10px)} 60%{transform:translateX(-7px)}
+      80%{transform:translateX(7px)}
+    }
+
+    /* ════════════════════════════════
+       PANTALLA CARTA
+    ════════════════════════════════ */
+    #carta-screen {
+      display: none; position: relative; z-index: 10;
+      min-height: 100vh; padding: 2.5rem 1rem 5rem;
+      animation: fadeSlideIn 1.2s ease;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .carta-wrapper { max-width: 700px; margin: 0 auto; }
+
+    /* cabecera */
+    .carta-header { text-align: center; margin-bottom: 2.4rem; }
+
+    .corona-top {
+      font-size: 2.4rem;
+      filter: drop-shadow(0 0 14px var(--oro));
+      animation: floatBob 3s infinite ease-in-out;
+      display: block; margin-bottom: .6rem;
+    }
+
+    .semana-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--rosa), var(--rosa2));
+      color: #fff; font-size: .8rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      padding: .4rem 1.4rem; border-radius: 50px;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 18px var(--sombra);
+    }
+
+    .titulo-carta {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.4rem; color: #fff;
+      text-shadow: 0 0 30px var(--sombra), 0 0 70px rgba(233,30,140,.3);
+      line-height: 1.2; margin-bottom: .6rem;
+    }
+
+    .corazon-grande {
+      font-size: 2.8rem; display: block;
+      animation: latido 1.5s infinite;
+      filter: drop-shadow(0 0 14px rgba(233,30,140,.7));
+    }
+    @keyframes latido {
+      0%,100%{transform:scale(1)}
+      14%{transform:scale(1.3)}
+      28%{transform:scale(1)}
+      42%{transform:scale(1.18)}
+    }
+
+    /* estrellas decorativas debajo del título */
+    .stars-row { display:flex;justify-content:center;gap:.4rem;margin:.8rem 0 0;font-size:1rem;
+      filter:drop-shadow(0 0 6px var(--oro)); }
+
+    /* ── SOBRE / PAPEL ── */
+    .carta-sobre {
+      position: relative;
+      background: var(--crema);
+      border-radius: 22px;
+      box-shadow: 0 16px 60px rgba(0,0,0,.55), 0 0 100px rgba(233,30,140,.2);
+      overflow: visible;
+    }
+
+    /* cinta superior */
+    .ribbon {
+      position: absolute; top: -16px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--rosa), var(--rosa2));
+      color: #fff; font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      padding: .35rem 1.6rem; border-radius: 50px;
+      box-shadow: 0 4px 14px var(--sombra);
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    /* sello de lacre */
+    .lacre {
+      position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%);
+      width: 56px; height: 56px;
+      background: radial-gradient(circle at 35% 35%, #e91e8c, #880e4f);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 18px rgba(233,30,140,.5), 0 0 0 4px #fff;
+      z-index: 5;
+      animation: sealPulse 2.5s infinite;
+    }
+    @keyframes sealPulse {
+      0%,100%{box-shadow:0 4px 18px rgba(233,30,140,.5),0 0 0 4px #fff}
+      50%{box-shadow:0 4px 28px rgba(233,30,140,.8),0 0 0 6px #fff,0 0 20px rgba(233,30,140,.4)}
+    }
+
+    /* esquinas ornamentales */
+    .corner {
+      position: absolute; font-size: 1.4rem;
+      opacity: .35; pointer-events: none;
+      filter: drop-shadow(0 0 4px var(--rosa));
+    }
+    .corner-tl { top:10px;left:12px; }
+    .corner-tr { top:10px;right:12px;transform:scaleX(-1); }
+    .corner-bl { bottom:18px;left:12px;transform:scaleY(-1); }
+    .corner-br { bottom:18px;right:12px;transform:scale(-1,-1); }
+
+    .carta-papel {
+      background: var(--crema);
+      border-radius: 22px;
+      padding: 3.5rem 3.4rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* línea superior degradada */
+    .carta-papel::before {
+      content:'';
+      position:absolute;top:0;left:0;right:0;height:5px;
+      background: linear-gradient(90deg, transparent, var(--rosa), var(--rosa2), var(--rosa), transparent);
+    }
+
+    /* marca de agua corazón */
+    .watermark {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 14rem; opacity: .03;
+      pointer-events: none; user-select: none;
+      line-height: 1;
+    }
+
+    /* líneas de cuaderno */
+    .carta-papel-lineas {
+      position: absolute; inset: 0; border-radius: 22px;
+      pointer-events: none; overflow: hidden; opacity: .35;
+    }
+    .carta-papel-lineas::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 38px,
+        rgba(240,98,146,.12) 38px, rgba(240,98,146,.12) 39px
+      );
+    }
+
+    .carta-fecha {
+      text-align: right; font-size: .84rem;
+      color: #b0829e; margin-bottom: 2rem;
+      font-style: italic; font-family: 'Dancing Script', cursive; font-size: 1rem;
+    }
+
+    .carta-saludo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.1rem; color: var(--rosa2);
+      margin-bottom: 1.6rem;
+      text-shadow: 0 2px 8px rgba(233,30,140,.15);
+    }
+
+    .carta-parrafo {
+      font-size: 1.02rem; line-height: 2;
+      color: #4a2040; margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    .resaltado {
+      color: var(--rosa2); font-weight: 700;
+      background: rgba(233,30,140,.07);
+      padding: 0 3px; border-radius: 4px;
+    }
+
+    /* separador con corazones entre párrafos */
+    .heart-sep {
+      display: flex; align-items: center; gap: .5rem;
+      margin: .4rem 0 1.4rem;
+      color: rgba(233,30,140,.35); font-size: .75rem;
+    }
+    .heart-sep::before,
+    .heart-sep::after {
+      content:'';flex:1;height:1px;
+      background: linear-gradient(90deg, transparent, rgba(233,30,140,.25), transparent);
+    }
+
+    /* floritura inicial (drop cap) */
+    .drop-cap::first-letter {
+      font-family: 'Dancing Script', cursive;
+      float: left; font-size: 4rem; line-height: .75;
+      color: var(--rosa2); margin: .1em .1em 0 0;
+      text-shadow: 2px 2px 8px rgba(233,30,140,.2);
+    }
+
+    .carta-firma {
+      text-align: right; margin-top: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px dashed rgba(233,30,140,.25);
+    }
+    .carta-firma p {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.7rem; color: var(--rosa2);
+    }
+    .carta-firma small {
+      display: block; font-size: .8rem;
+      color: #b0829e; margin-top: .3rem;
+    }
+
+    /* post-it pegado */
+    .postit {
+      position: absolute;
+      right: -14px; top: 30%;
+      width: 90px; height: 90px;
+      background: #fff9c4;
+      border-radius: 4px 4px 4px 0;
+      box-shadow: 3px 3px 10px rgba(0,0,0,.2);
+      transform: rotate(6deg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.9rem;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,.15));
+    }
+    .postit::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 6px;
+      background: rgba(0,0,0,.06); border-radius: 4px 4px 0 0;
+    }
+
+    /* galería de emojis en el footer */
+    .emoji-footer {
+      text-align: center;
+      margin-top: 3.5rem;
+      font-size: 1.6rem;
+      letter-spacing: .3rem;
+      filter: drop-shadow(0 0 8px rgba(233,30,140,.5));
+      animation: emojiPulse 2s infinite alternate;
+    }
+    @keyframes emojiPulse { from{opacity:.6}to{opacity:1} }
+
+    /* ── LLUVIA DE EMOJIS ── */
+    @keyframes petalCaida {
+      0%   { opacity:0; transform: translateY(0) rotate(-10deg) scale(.5); }
+      10%  { opacity:1; }
+      80%  { opacity:.8; }
+      100% { opacity:0; transform: translateY(110vh) rotate(30deg) scale(1); }
+    }
+
+    @media (max-width: 520px) {
+      .carta-papel { padding: 2.2rem 1.6rem 2.8rem; }
+      .titulo-carta { font-size: 2.6rem; }
+      .postit { display: none; }
+      .corner { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ AUDIO ══ -->
+<audio id="bg-music" loop>
+  <source src="musica.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- botón flotante música -->
+<button id="music-btn" onclick="toggleMusic()" title="Música" style="
+  display:flex;align-items:center;justify-content:center;
+  position:fixed;bottom:22px;right:22px;
+  width:52px;height:52px;
+  background:linear-gradient(135deg,#f06292,#e91e8c);
+  border:none;border-radius:50%;
+  color:#fff;font-size:1.4rem;
+  cursor:pointer;z-index:999;
+  box-shadow:0 4px 20px rgba(233,30,140,.5);
+  transition:transform .2s,box-shadow .2s;
+  animation:sealPulse 2.5s infinite;
+">🔇</button>
+
+<!-- ══ CAPAS DE FONDO ══ -->
+<div class="bg-layer" id="bg-layer">
+  <div class="aurora aurora-1"></div>
+  <div class="aurora aurora-2"></div>
+  <div class="aurora aurora-3"></div>
+</div>
+
+<!-- ══════════════ PANTALLA LOGIN ══════════════ -->
+<div id="login-screen">
+  <div class="corona">👑</div>
+  <div class="login-card">
+    <span class="lock-icon">💗</span>
+    <h1>Para ti, amor</h1>
+    <p class="subtitle">Hay algo especial esperándote aquí.<br>Solo tú sabes la respuesta.</p>
+
+    <div class="divider-deco">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <div class="hint-box">
+      <strong>Pista:</strong> ¿Qué día empezamos a salir? 🥺
+    </div>
+
+    <div class="input-wrap">
+      <input
+        type="text"
+        id="fecha-input"
+        placeholder="Ej: 01"
+        maxlength="2"
+        autocomplete="off"
+        inputmode="numeric"
+      />
+    </div>
+
+    <button class="btn-abrir" onclick="verificar()">Abrir carta 💌</button>
+    <p class="error-msg" id="error-msg"></p>
+  </div>
+</div>
+
+<!-- ══════════════ PANTALLA CARTA ══════════════ -->
+<div id="carta-screen">
+  <div class="carta-wrapper">
+
+    <!-- cabecera -->
+    <div class="carta-header">
+      <span class="corona-top">👑</span>
+      <div class="semana-badge">🎉 ¡Una semana juntos! 🎉</div>
+      <h2 class="titulo-carta">Para mi Milagros</h2>
+      <span class="corazon-grande">💕</span>
+      <div class="stars-row">⭐ 🌸 💫 🌸 ⭐</div>
+    </div>
+
+    <!-- sobre/papel -->
+    <div class="carta-sobre">
+      <div class="ribbon">💌 &nbsp; Una semana de amor &nbsp; 💌</div>
+
+      <!-- esquinas ornamentales -->
+      <span class="corner corner-tl">🌺</span>
+      <span class="corner corner-tr">🌺</span>
+      <span class="corner corner-bl">🌺</span>
+      <span class="corner corner-br">🌺</span>
+
+      <!-- post-it decorativo -->
+      <div class="postit">🌷</div>
+
+      <div class="carta-papel">
+        <div class="watermark">💗</div>
+        <div class="carta-papel-lineas"></div>
+
+        <p class="carta-fecha">3 de junio de 2026 ✨</p>
+
+        <p class="carta-saludo">Mi amor, Milagros…</p>
+
+        <p class="carta-parrafo drop-cap">
+          Han pasado solo siete días desde que empezamos este camino juntos
+          y ya no me imagino ningún día sin ti, <span class="resaltado">desde el primer momento en que te conocí</span>
+          algo cambió en mí, como si el mundo de repente tuviera más color,
+          más calma, más sentido, no sé cómo explicarlo bien pero tú simplemente
+          haces que todo sea mejor
+        </p>
+
+        <div class="heart-sep">💕 &nbsp; 💕 &nbsp; 💕</div>
+
+        <p class="carta-parrafo">
+          me haces feliz de una manera que no esperaba, tu forma de ser,
+          tu voz, tu mirada, todo en ti me llena, cada vez que estamos juntos
+          siento que estoy exactamente donde debo estar y eso
+          <span class="resaltado">no tiene precio</span>
+        </p>
+
+        <div class="heart-sep">🌸 &nbsp; 🌸 &nbsp; 🌸</div>
+
+        <p class="carta-parrafo">
+          quiero que sepas que <span class="resaltado">me preocupo por ti de verdad</span>,
+          no es solo de boca para afuera, pienso en ti, en cómo estás,
+          en cómo te sientes, quiero cuidarte, protegerte y estar presente
+          en los momentos buenos y en los difíciles,
+          tu bienestar me importa tanto como el mío
+        </p>
+
+        <div class="heart-sep">✨ &nbsp; ✨ &nbsp; ✨</div>
+
+        <p class="carta-parrafo">
+          y más que cualquier cosa quiero que <span class="resaltado">nunca te sientas insegura</span>
+          estando conmigo, no vas a tener que adivinar lo que siento,
+          te lo voy a demostrar con hechos, con tiempo, con atención,
+          <strong style="color:#c2185b">tu corazón estará seguro en mis manos, te lo prometo</strong>
+        </p>
+
+        <div class="heart-sep">💗 &nbsp; 💗 &nbsp; 💗</div>
+
+        <p class="carta-parrafo">
+          esto apenas empieza amor, y yo quiero estar aquí para cada cosa
+          que venga, para reírnos, para crecer juntos, para que jamás
+          dudes de cuánto te quiero
+        </p>
+
+        <div class="carta-firma">
+          <p>con todo mi amor, siempre 💕</p>
+          <small>tu chico, para siempre 🌹</small>
+        </div>
+      </div>
+
+      <div class="lacre">💍</div>
+    </div>
+
+    <div class="emoji-footer">🌹 💕 ✨ 💕 🌹</div>
+  </div>
+</div>
+
+<script>
+  const FECHA_CORRECTA = "27";
+  const FECHA_ALT = "27";
+
+  /* ── estrellas de fondo ── */
+  const bgLayer = document.getElementById("bg-layer");
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    const sz = .5 + Math.random() * 2.5;
+    s.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      top:${Math.random()*100}vh;left:${Math.random()*100}vw;
+      --d:${2+Math.random()*5}s;--delay:${Math.random()*6}s;
+    `;
+    bgLayer.appendChild(s);
+  }
+
+  /* ── partículas flotantes ── */
+  const particles = ["💕","🌸","💖","✨","🌷","💗","🥀","💝","⭐","🌺","🦋","💫"];
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement("span");
+    h.className = "float-particle";
+    h.textContent = particles[i % particles.length];
+    h.style.cssText = `
+      left:${Math.random()*100}vw;
+      --size:${.8+Math.random()*1.2}rem;
+      --d:${7+Math.random()*7}s;
+      --delay:${Math.random()*9}s;
+    `;
+    bgLayer.appendChild(h);
+  }
+
+  /* ── input enter ── */
+  document.getElementById("fecha-input").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") verificar();
+  });
+
+  function verificar() {
+    const val = document.getElementById("fecha-input").value.trim();
+    const err = document.getElementById("error-msg");
+
+    if (val === FECHA_CORRECTA || val === FECHA_ALT) {
+      iniciarMusica();
+      setTimeout(() => {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("carta-screen").style.display = "block";
+        window.scrollTo(0,0);
+        setTimeout(lanzarConfetti, 300);
+      }, 500);
+    } else {
+      err.textContent = "Esa no es la fecha, amor 🥺 ¡Piénsalo bien!";
+      err.classList.remove("shake");
+      requestAnimationFrame(() => err.classList.add("shake"));
+    }
+  }
+
+  /* ── música ── */
+  const music = document.getElementById("bg-music");
+  const musicBtn = document.getElementById("music-btn");
+  let musicando = false;
+
+  function fadeIn() {
+    let vol = 0;
+    music.volume = 0;
+    const fade = setInterval(() => {
+      vol = Math.min(vol + 0.02, 0.7);
+      music.volume = vol;
+      if (vol >= 0.7) clearInterval(fade);
+    }, 60);
+  }
+
+  function arrancarMusica() {
+    if (musicando) return;
+    music.play().then(() => {
+      musicando = true;
+      musicBtn.textContent = "🎵";
+      fadeIn();
+    }).catch(() => {});
+  }
+
+  function toggleMusic() {
+    if (musicando) {
+      music.pause();
+      musicBtn.textContent = "🔇";
+      musicando = false;
+    } else {
+      music.play().then(() => {
+        musicando = true;
+        musicBtn.textContent = "🎵";
+        fadeIn();
+      });
+    }
+  }
+
+  // intento al cargar
+  window.addEventListener("load", () => {
+    music.play().then(() => {
+      musicando = true;
+      musicBtn.textContent = "🎵";
+      fadeIn();
+    }).catch(() => {
+      // bloqueado por el navegador → arranca en el primer gesto
+      const arrancarAlTocar = () => {
+        arrancarMusica();
+        document.removeEventListener("click",    arrancarAlTocar);
+        document.removeEventListener("touchstart", arrancarAlTocar);
+        document.removeEventListener("keydown",  arrancarAlTocar);
+      };
+      document.addEventListener("click",     arrancarAlTocar, { once: true });
+      document.addEventListener("touchstart", arrancarAlTocar, { once: true });
+      document.addEventListener("keydown",   arrancarAlTocar, { once: true });
+    });
+  });
+
+  function iniciarMusica() { arrancarMusica(); }
+
+  function lanzarConfetti() {
+    const emojisLluvia = ["💕","💖","🌸","✨","🌷","💗","🌺","💝","⭐","🦋"];
+    for (let i = 0; i < 35; i++) {
+      const c = document.createElement("span");
+      c.textContent = emojisLluvia[Math.floor(Math.random() * emojisLluvia.length)];
+      const sz = .9 + Math.random() * 1.4;
+      c.style.cssText = `
+        position:fixed;
+        left:${Math.random()*100}vw;
+        top:-6vh;
+        font-size:${sz}rem;
+        opacity:0;
+        pointer-events:none;
+        z-index:9999;
+        animation: petalCaida ${2.5 + Math.random()*2}s ease-in forwards;
+        animation-delay:${i * 80}ms;
+        filter:drop-shadow(0 0 4px rgba(233,30,140,.5));
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 6000);
+    }
+  }
+</script>
+</body>
+</html>
